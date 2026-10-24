@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass, NgStyle } from '@angular/common';
 import { DeadlinePipe } from '../../../../shared/pipes/deadline.pipe';
 import { TruncatePipe } from '../../../../shared/pipes/truncate.pipe';
 import { HighlightDirective } from '../../../../shared/directives/highlight.directive';
@@ -10,7 +10,7 @@ import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
 @Component({
   selector: 'app-task-item',
   imports: [
-    NgClass, DatePipe, DeadlinePipe, TruncatePipe,
+    NgClass, NgStyle, DatePipe, DeadlinePipe, TruncatePipe,
     HighlightDirective, OverdueDirective, TooltipDirective,
   ],
   templateUrl: './task-item.html',

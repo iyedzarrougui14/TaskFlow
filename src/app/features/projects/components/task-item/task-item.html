@@ -50,6 +50,7 @@
   <span
     class="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold"
     [ngClass]="priorityClasses[task().priority]"
+    [ngStyle]="{ 'opacity': task().priority === 'Haute' ? '1' : '0.9' }"
   >
     @switch (task().priority) {
       @case ('Haute') { ▲ Haute }
