@@ -5,6 +5,7 @@
       [showAssignee]="showAssignee()"
       [assigneeName]="assigneeName(task)"
       [descriptionLimit]="descriptionLimit()"
+      (taskStatusChange)="onTaskStatusChange($event)"
     />
   } @empty {
     <p class="text-sm italic text-gray-500">Aucune tâche.</p>

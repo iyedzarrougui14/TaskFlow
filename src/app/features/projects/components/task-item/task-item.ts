@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 import { DeadlinePipe } from '../../../../shared/pipes/deadline.pipe';
 import { TruncatePipe } from '../../../../shared/pipes/truncate.pipe';
@@ -20,6 +20,21 @@ export class TaskItem {
   showAssignee = input(true);
   assigneeName = input<string | null>(null);
   descriptionLimit = input(40);
+
+  taskStatusChange = output<{ taskId: number; newStatus: TaskStatus }>();
+
+  cycleStatus(): void {
+    const current = this.task().status;
+    let next: TaskStatus = 'En attente';
+    if (current === 'En attente') {
+      next = 'En cours';
+    } else if (current === 'En cours') {
+      next = 'Terminé';
+    } else if (current === 'Terminé') {
+      next = 'En attente';
+    }
+    this.taskStatusChange.emit({ taskId: this.task().id, newStatus: next });
+  }
 
   readonly borderClasses: Record<TaskStatus, string> = {
     'En attente': 'border-l-4 border-yellow-400 bg-yellow-50',

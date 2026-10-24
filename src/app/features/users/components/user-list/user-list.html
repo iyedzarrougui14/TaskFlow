@@ -29,6 +29,7 @@
           [projects]="projects()"
           [selected]="selectedUser()?.id === user.id"
           (userSelected)="onUserSelected($event)"
+          (taskStatusChange)="onTaskStatusChange($event)"
         />
       }
     </div>

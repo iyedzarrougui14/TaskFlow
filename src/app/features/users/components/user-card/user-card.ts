@@ -4,7 +4,7 @@ import { InitialsPipe } from '../../../../shared/pipes/initials.pipe';
 import { HighlightDirective } from '../../../../shared/directives/highlight.directive';
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 import { Project } from '../../../projects/models/project.model';
-import { Task } from '../../../projects/models/task.model';
+import { Task, TaskStatus } from '../../../projects/models/task.model';
 import { User } from '../../models/user.model';
 import { UserProjectGroup } from '../user-project-group/user-project-group';
 
@@ -26,6 +26,7 @@ export class UserCard {
   user = input.required<User>();
   selected = input(false);
   userSelected = output<User>();
+  taskStatusChange = output<{ taskId: number; newStatus: TaskStatus; projectId?: number }>();
 
   private static readonly AVATAR_COLORS = ['#6366f1', '#ec4899', '#14b8a6', '#f97316', '#8b5cf6'];
 
@@ -54,5 +55,9 @@ export class UserCard {
 
   selectUser(): void {
     this.userSelected.emit(this.user());
+  }
+
+  onTaskStatusChange(event: { taskId: number; newStatus: TaskStatus; projectId?: number }): void {
+    this.taskStatusChange.emit(event);
   }
 }

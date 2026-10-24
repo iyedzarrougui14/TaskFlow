@@ -44,7 +44,12 @@
   </div>
 
   @for (group of groups(); track group.projectId) {
-    <app-user-project-group [projectName]="group.projectName" [tasks]="group.tasks" />
+    <app-user-project-group
+      [projectName]="group.projectName"
+      [tasks]="group.tasks"
+      [projectId]="group.projectId"
+      (taskStatusChange)="onTaskStatusChange($event)"
+    />
   } @empty {
     <app-empty-state title="Aucune tâche assignée" />
   }

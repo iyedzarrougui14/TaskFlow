@@ -5,7 +5,7 @@ import {
 } from '@angular/common';
 import { HighlightDirective } from '../../../../shared/directives/highlight.directive';
 import { Project, ProjectStatus } from '../../models/project.model';
-import { TaskPriority } from '../../models/task.model';
+import { TaskPriority, TaskStatus } from '../../models/task.model';
 import { TaskList } from '../task-list/task-list';
 
 @Component({
@@ -23,6 +23,7 @@ export class ProjectCard {
 
   // Output : informe le parent
   projectSelected = output<Project>();
+  taskStatusChange = output<{ taskId: number; newStatus: TaskStatus; projectId: number }>();
 
   readonly statusClasses: Record<ProjectStatus, string> = {
     'En attente': 'bg-yellow-100 text-yellow-800',
@@ -67,5 +68,13 @@ export class ProjectCard {
 
   selectProject(): void {
     this.projectSelected.emit(this.project());
+  }
+
+  onTaskStatusChange(event: { taskId: number; newStatus: TaskStatus; projectId?: number }): void {
+    this.taskStatusChange.emit({
+      taskId: event.taskId,
+      newStatus: event.newStatus,
+      projectId: event.projectId ?? this.project().id,
+    });
   }
 }

@@ -62,7 +62,11 @@
   </h4>
 
   <!-- 3 premières tâches (slice), ou toutes si l'utilisateur clique sur « Voir tout » -->
-  <app-task-list [tasks]="showAll() ? project().tasks : (project().tasks | slice: 0 : 3)" />
+  <app-task-list
+    [tasks]="showAll() ? project().tasks : (project().tasks | slice: 0 : 3)"
+    [projectId]="project().id"
+    (taskStatusChange)="onTaskStatusChange($event)"
+  />
   @if (project().tasks.length > 3) {
     <button
       type="button"

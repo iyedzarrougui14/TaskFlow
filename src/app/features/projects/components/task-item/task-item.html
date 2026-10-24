@@ -8,9 +8,18 @@
 >
   <div class="min-w-0 flex-1 text-left">
     <p class="text-sm font-medium text-gray-900">{{ task().title }}</p>
-    <p class="text-xs font-semibold" [ngClass]="statusClasses[task().status]">
-      {{ task().status }}
-    </p>
+    <div>
+      <button
+        type="button"
+        class="cursor-pointer inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold shadow-xs transition hover:opacity-80"
+        [ngClass]="statusClasses[task().status]"
+        (click)="cycleStatus()"
+        title="Cliquer pour changer le statut"
+      >
+        <span>{{ task().status }}</span>
+        <span class="text-[10px]">🔄</span>
+      </button>
+    </div>
 
     <!-- Description : uniquement si elle existe, tronquée selon descriptionLimit (40 par défaut) -->
     @if (task().description) {

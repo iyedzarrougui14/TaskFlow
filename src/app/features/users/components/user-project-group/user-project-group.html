@@ -5,5 +5,11 @@
       {{ tasks().length }} {{ tasks().length > 1 ? 'tâches' : 'tâche' }}
     </span>
   </h5>
-  <app-task-list [tasks]="tasks()" [showAssignee]="false" [descriptionLimit]="200" />
+  <app-task-list
+    [tasks]="tasks()"
+    [showAssignee]="false"
+    [descriptionLimit]="200"
+    [projectId]="projectId()"
+    (taskStatusChange)="taskStatusChange.emit($event)"
+  />
 </div>

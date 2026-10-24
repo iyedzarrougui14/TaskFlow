@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 import { UserService } from '../../../../core/services/user.service';
 import { DeadlinePipe } from '../../../../shared/pipes/deadline.pipe';
@@ -23,6 +23,17 @@ export class TaskList implements OnInit {
   showAssignee = input(true);
   // Limite du pipe truncate : 40 par défaut (exigence du TP), modifiable par le parent
   descriptionLimit = input(40);
+  projectId = input<number>();
+
+  taskStatusChange = output<{ taskId: number; newStatus: TaskStatus; projectId?: number }>();
+
+  onTaskStatusChange(event: { taskId: number; newStatus: TaskStatus }): void {
+    this.taskStatusChange.emit({
+      taskId: event.taskId,
+      newStatus: event.newStatus,
+      projectId: this.projectId(),
+    });
+  }
 
   private readonly users = signal<User[]>([]);
 

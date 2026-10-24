@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../../../core/services/project.service';
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 import { Project } from '../../models/project.model';
+import { TaskStatus } from '../../models/task.model';
 import { ProjectCard } from '../project-card/project-card';
 
 @Component({
@@ -34,5 +35,22 @@ export class ProjectList implements OnInit {
   onProjectSelected(project: Project): void {
     console.log(project);
     this.selectedProject.set(project);
+  }
+
+  onTaskStatusChange(event: { taskId: number; newStatus: TaskStatus; projectId?: number }): void {
+    this.projects.update((projects) =>
+      projects.map((p) => {
+        if (event.projectId !== undefined && p.id !== event.projectId) return p;
+        const taskExists = p.tasks.some((t) => t.id === event.taskId);
+        if (!taskExists && event.projectId === undefined) return p;
+
+        return {
+          ...p,
+          tasks: p.tasks.map((t) =>
+            t.id === event.taskId ? { ...t, status: event.newStatus } : t
+          ),
+        };
+      })
+    );
   }
 }
