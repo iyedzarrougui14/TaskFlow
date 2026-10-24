@@ -1,14 +1,12 @@
-@if (tasks().length === 0) {
-  <p class="text-sm italic text-gray-500">Aucune tâche.</p>
-} @else {
-  <ul class="space-y-2">
-    @for (task of tasks(); track task.id) {
-      <app-task-item
-        [task]="task"
-        [showAssignee]="showAssignee()"
-        [assigneeName]="assigneeName(task)"
-        [descriptionLimit]="descriptionLimit()"
-      />
-    }
-  </ul>
-}
+<ul class="space-y-2">
+  @for (task of tasks(); track task.id) {
+    <app-task-item
+      [task]="task"
+      [showAssignee]="showAssignee()"
+      [assigneeName]="assigneeName(task)"
+      [descriptionLimit]="descriptionLimit()"
+    />
+  } @empty {
+    <p class="text-sm italic text-gray-500">Aucune tâche.</p>
+  }
+</ul>
