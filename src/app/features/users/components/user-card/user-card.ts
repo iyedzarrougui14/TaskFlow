@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { LowerCasePipe, NgClass, NgStyle, TitleCasePipe } from '@angular/common';
 import { InitialsPipe } from '../../../../shared/pipes/initials.pipe';
 import { HighlightDirective } from '../../../../shared/directives/highlight.directive';
@@ -24,6 +24,8 @@ interface ProjectTasks {
 })
 export class UserCard {
   user = input.required<User>();
+  selected = input(false);
+  userSelected = output<User>();
 
   private static readonly AVATAR_COLORS = ['#6366f1', '#ec4899', '#14b8a6', '#f97316', '#8b5cf6'];
 
@@ -49,4 +51,8 @@ export class UserCard {
   todoCount = computed(() => this.allTasks().filter((t) => t.status === 'En attente').length);
   inProgressCount = computed(() => this.allTasks().filter((t) => t.status === 'En cours').length);
   doneCount = computed(() => this.allTasks().filter((t) => t.status === 'Terminé').length);
+
+  selectUser(): void {
+    this.userSelected.emit(this.user());
+  }
 }

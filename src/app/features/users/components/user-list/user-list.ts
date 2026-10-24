@@ -19,6 +19,7 @@ export class UserList implements OnInit {
   users = signal<User[]>([]);
   projects = signal<Project[]>([]);
   searchTerm = signal('');
+  selectedUser = signal<User | null>(null);
 
   filteredUsers = computed(() => {
     const term = this.searchTerm().trim().toLowerCase();
@@ -31,5 +32,9 @@ export class UserList implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe((users) => this.users.set(users));
     this.projectService.getProjects().subscribe((projects) => this.projects.set(projects));
+  }
+
+  onUserSelected(user: User): void {
+    this.selectedUser.set(user);
   }
 }

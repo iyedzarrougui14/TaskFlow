@@ -10,6 +10,12 @@
     />
   </div>
 
+  @if (selectedUser(); as selected) {
+    <p class="mb-6 rounded-lg border-l-4 border-blue-500 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+      Utilisateur sélectionné : <strong>{{ selected.name }}</strong>
+    </p>
+  }
+
   @if (filteredUsers().length === 0) {
     <app-empty-state
       title="Aucun utilisateur trouvé"
@@ -18,7 +24,12 @@
   } @else {
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       @for (user of filteredUsers(); track user.id) {
-        <app-user-card [user]="user" [projects]="projects()" />
+        <app-user-card
+          [user]="user"
+          [projects]="projects()"
+          [selected]="selectedUser()?.id === user.id"
+          (userSelected)="onUserSelected($event)"
+        />
       }
     </div>
   }

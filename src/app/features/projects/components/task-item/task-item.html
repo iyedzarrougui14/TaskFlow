@@ -1,0 +1,51 @@
+<li
+  appHighlight="#fef9c3"
+  appOverdue
+  [dueDate]="task().dueDate"
+  [done]="task().status === 'Terminé'"
+  class="flex items-center justify-between gap-3 rounded-r px-3 py-2 transition-colors"
+  [ngClass]="borderClasses[task().status]"
+>
+  <div class="min-w-0 flex-1 text-left">
+    <p class="text-sm font-medium text-gray-900">{{ task().title }}</p>
+    <p class="text-xs font-semibold" [ngClass]="statusClasses[task().status]">
+      {{ task().status }}
+    </p>
+
+    <!-- Description : uniquement si elle existe, tronquée selon descriptionLimit (40 par défaut) -->
+    @if (task().description) {
+      <p class="text-xs text-gray-600" [title]="task().description!" [appTooltip]="task().description!">
+        {{ task().description | truncate: descriptionLimit() }}
+      </p>
+    }
+
+    <!-- Échéance : alias « as » pour ne pas répéter l'expression -->
+    <p class="text-xs text-gray-500">
+      @if (task().dueDate; as due) {
+        {{ due | date: 'dd/MM/yyyy' }} · {{ due | deadline }}
+      } @else {
+        Aucune échéance
+      }
+    </p>
+
+    @if (showAssignee()) {
+      <p class="text-xs text-gray-500">
+        @if (assigneeName(); as name) {
+          👤 {{ name }}
+        } @else {
+          <span class="italic">Non assignée</span>
+        }
+      </p>
+    }
+  </div>
+  <span
+    class="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold"
+    [ngClass]="priorityClasses[task().priority]"
+  >
+    @switch (task().priority) {
+      @case ('Haute') { ▲ Haute }
+      @case ('Moyenne') { ● Moyenne }
+      @default { ▼ Basse }
+    }
+  </span>
+</li>
