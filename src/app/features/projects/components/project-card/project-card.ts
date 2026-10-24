@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import {
   CurrencyPipe, DatePipe, DecimalPipe, KeyValuePipe, NgClass, NgStyle, PercentPipe, SlicePipe,
   UpperCasePipe,
@@ -30,6 +30,9 @@ export class ProjectCard {
     'Terminé': 'bg-green-100 text-green-800',
   };
 
+  /** Affiche toutes les tâches (true) ou seulement les 3 premières (false). */
+  showAll = signal(false);
+
   /** Taux de réalisation entre 0 et 1 (0 si aucune tâche : pas de division par zéro). */
   completionRate = computed(() => {
     const tasks = this.project().tasks;
@@ -57,6 +60,10 @@ export class ProjectCard {
     for (const t of this.project().tasks) counts[t.priority]++;
     return counts;
   });
+
+  toggleShowAll(): void {
+    this.showAll.update((value) => !value);
+  }
 
   selectProject(): void {
     this.projectSelected.emit(this.project());
