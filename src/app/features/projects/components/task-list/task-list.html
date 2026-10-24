@@ -8,19 +8,18 @@
         class="flex items-center justify-between gap-3 rounded-r px-3 py-2 transition-colors"
         [ngClass]="borderClasses[task.status]"
       >
-    <br/>
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1 text-left">
           <p class="text-sm font-medium text-gray-900">{{ task.title }}</p>
           <p class="text-xs font-semibold" [ngClass]="statusClasses[task.status]">
             {{ task.status }}
           </p>
 
-          <!-- Description : uniquement si elle existe, tronquée à 40 caractères -->
+          <!-- Description : uniquement si elle existe, tronquée selon descriptionLimit (40 par défaut) -->
           @if (task.description) {
-  <p class="text-xs text-gray-600" [title]="task.description">
-    {{ task.description | truncate: 40 }}
-  </p>
-}
+            <p class="text-xs text-gray-600" [title]="task.description">
+              {{ task.description | truncate: descriptionLimit() }}
+            </p>
+          }
 
           <!-- Échéance : alias « as » pour ne pas répéter l'expression -->
           <p class="text-xs text-gray-500">
