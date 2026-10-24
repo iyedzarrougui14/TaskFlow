@@ -18,6 +18,8 @@ export class TaskList implements OnInit {
   tasks = input.required<Task[]>();
   // Masqué dans la vue « Par user » où le nom de l'assigné est redondant
   showAssignee = input(true);
+  // Limite du pipe truncate : 40 par défaut (exigence du TP), modifiable par le parent
+  descriptionLimit = input(40);
 
   private readonly users = signal<User[]>([]);
 
