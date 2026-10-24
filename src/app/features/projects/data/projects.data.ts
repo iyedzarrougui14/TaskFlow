@@ -32,7 +32,7 @@ export const PROJECTS: Project[] = [
     tasks: [
       { id: 10, title: 'Audit du schéma',         priority: 'Haute',   status: 'Terminé',    assigneeId: 2, dueDate: '2026-09-05' },
       { id: 11, title: 'Script de migration',     priority: 'Haute',   status: 'Terminé',    assigneeId: 2, dueDate: '2026-09-25' },
-      { id: 12, title: 'Validation des données',  priority: 'Moyenne', status: 'En cours',   assigneeId: 3, dueDate: '2026-10-20',
+      { id: 12, title: 'Validation des données',  priority: 'Moyenne', status: 'En cours',   assigneeId: 3, dueDate: '2026-10-30',
         description: 'Vérifier la cohérence des données migrées en comparant les volumes et les contenus avec l’ancien serveur.' },
     ],
   },

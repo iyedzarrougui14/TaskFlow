@@ -5,6 +5,9 @@
     @for (task of tasks(); track task.id) {
       <li
         appHighlight="#fef9c3"
+        appOverdue
+        [dueDate]="task.dueDate"
+        [done]="task.status === 'Terminé'"
         class="flex items-center justify-between gap-3 rounded-r px-3 py-2 transition-colors"
         [ngClass]="borderClasses[task.status]"
       >
@@ -16,7 +19,7 @@
 
           <!-- Description : uniquement si elle existe, tronquée selon descriptionLimit (40 par défaut) -->
           @if (task.description) {
-            <p class="text-xs text-gray-600" [title]="task.description">
+            <p class="text-xs text-gray-600" [title]="task.description" [appTooltip]="task.description">
               {{ task.description | truncate: descriptionLimit() }}
             </p>
           }

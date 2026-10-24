@@ -4,12 +4,14 @@ import { UserService } from '../../../../core/services/user.service';
 import { DeadlinePipe } from '../../../../shared/pipes/deadline.pipe';
 import { TruncatePipe } from '../../../../shared/pipes/truncate.pipe';
 import { HighlightDirective } from '../../../../shared/directives/highlight.directive';
+import { OverdueDirective } from '../../../../shared/directives/overdue.directive';
+import { TooltipDirective } from '../../../../shared/directives/tooltip.directive';
 import { User } from '../../../users/models/user.model';
 import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
 
 @Component({
   selector: 'app-task-list',
-  imports: [NgClass, DatePipe, DeadlinePipe, TruncatePipe, HighlightDirective],
+  imports: [NgClass, DatePipe, DeadlinePipe, TruncatePipe, HighlightDirective, OverdueDirective, TooltipDirective],
   templateUrl: './task-list.html',
 })
 export class TaskList implements OnInit {
