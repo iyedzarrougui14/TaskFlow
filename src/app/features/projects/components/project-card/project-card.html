@@ -26,7 +26,7 @@
   <!-- Barre de progression -->
   @if (project().tasks.length > 0) {
     <div class="mb-1 flex items-center justify-between text-sm">
-      <span class="text-gray-600">Taux de réalisation</span>
+      <span class="text-gray-600">Taux de réalisation ({{ completedTasksCount() }}/{{ project().tasks.length }})</span>
       <strong>{{ completionRate() | percent: '1.0-0' }}</strong>
     </div>
     <div class="mb-2 h-2 w-full rounded-full bg-gray-200">

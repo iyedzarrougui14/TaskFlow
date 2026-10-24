@@ -34,11 +34,16 @@ export class ProjectCard {
   /** Affiche toutes les tâches (true) ou seulement les 3 premières (false). */
   showAll = signal(false);
 
+  /** Nombre de tâches terminées (computed). */
+  completedTasksCount = computed(() => {
+    return this.project().tasks.filter((t) => t.status === 'Terminé').length;
+  });
+
   /** Taux de réalisation entre 0 et 1 (0 si aucune tâche : pas de division par zéro). */
   completionRate = computed(() => {
     const tasks = this.project().tasks;
     if (tasks.length === 0) return 0;
-    return tasks.filter((t) => t.status === 'Terminé').length / tasks.length;
+    return this.completedTasksCount() / tasks.length;
   });
 
   /** Coût moyen par tâche (0 si aucune tâche). */
