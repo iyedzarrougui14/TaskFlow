@@ -60,10 +60,17 @@
   <h4 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
     Tâches ({{ project().tasks.length }})
   </h4>
-  <!-- Uniquement les 3 premières tâches (slice) -->
-  <app-task-list [tasks]="project().tasks | slice: 0 : 3" />
+
+  <!-- 3 premières tâches (slice), ou toutes si l'utilisateur clique sur « Voir tout » -->
+  <app-task-list [tasks]="showAll() ? project().tasks : (project().tasks | slice: 0 : 3)" />
   @if (project().tasks.length > 3) {
-    <p class="mt-2 text-xs text-gray-400">… et {{ project().tasks.length - 3 }} autre(s)</p>
+    <button
+      type="button"
+      class="mt-2 cursor-pointer self-start text-sm text-blue-600 hover:underline"
+      (click)="toggleShowAll()"
+    >
+      {{ showAll() ? 'Voir moins' : 'Voir tout (' + project().tasks.length + ')' }}
+    </button>
   }
 
   <button
