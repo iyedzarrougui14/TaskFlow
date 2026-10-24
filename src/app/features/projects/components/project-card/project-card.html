@@ -1,0 +1,77 @@
+<article
+  appHighlight="#f8fafc"
+  class="flex h-full flex-col overflow-hidden rounded-lg bg-white p-6 shadow-lg transition"
+  [ngClass]="selected() ? 'ring-2 ring-blue-500' : ''"
+>
+  <div class="mb-3 flex items-start justify-between gap-3">
+    <h3 class="text-xl font-semibold text-gray-900">{{ project().name | uppercase }}</h3>
+    <span
+      class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+      [ngClass]="statusClasses[project().status]"
+    >
+      {{ project().status }}
+    </span>
+  </div>
+
+  <p class="mb-3 text-gray-600">{{ project().description }}</p>
+
+  <dl class="mb-3 space-y-1 text-sm text-gray-700">
+    <div>Début : <strong>{{ project().startDate | date: 'dd MMMM yyyy' }}</strong></div>
+    <div>Budget : <strong>{{ project().budget | currency: 'TND' : 'TND' : '1.2-2' }}</strong></div>
+    @if (project().tasks.length > 0) {
+      <div>Coût moyen par tâche : <strong>{{ averageCost() | number: '1.0-0' }}</strong></div>
+    }
+  </dl>
+
+  <!-- Barre de progression -->
+  @if (project().tasks.length > 0) {
+    <div class="mb-1 flex items-center justify-between text-sm">
+      <span class="text-gray-600">Taux de réalisation</span>
+      <strong>{{ completionRate() | percent: '1.0-0' }}</strong>
+    </div>
+    <div class="mb-2 h-2 w-full rounded-full bg-gray-200">
+      <div
+        class="h-2 rounded-full"
+        [ngStyle]="{ width: completionRate() * 100 + '%', 'background-color': barColor() }"
+      ></div>
+    </div>
+  }
+
+  <!-- Message d'avancement -->
+  <p class="mb-3 text-sm font-medium text-gray-700">
+    @if (project().tasks.length === 0) {
+      Aucune tâche pour le moment
+    } @else if (completionRate() === 1) {
+      Projet terminé
+    } @else if (completionRate() > 0) {
+      En progression
+    } @else {
+      Pas encore démarré
+    }
+  </p>
+
+  <!-- Tâches par priorité (keyvalue) -->
+  <div class="mb-4 flex flex-wrap gap-2 text-xs">
+    @for (item of tasksByPriority() | keyvalue; track item.key) {
+      <span class="rounded bg-gray-100 px-2 py-1 text-gray-700">{{ item.key }} : {{ item.value }}</span>
+    }
+  </div>
+
+  <h4 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
+    Tâches ({{ project().tasks.length }})
+  </h4>
+  <!-- Uniquement les 3 premières tâches (slice) -->
+  <app-task-list [tasks]="project().tasks | slice: 0 : 3" />
+  @if (project().tasks.length > 3) {
+    <p class="mt-2 text-xs text-gray-400">… et {{ project().tasks.length - 3 }} autre(s)</p>
+  }
+
+  <button
+    type="button"
+    class="mt-4 cursor-pointer self-start rounded px-4 py-2 text-white transition"
+    [ngClass]="selected() ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'"
+    (click)="selectProject()"
+  >
+    {{ selected() ? 'Sélectionné' : 'Sélectionner' }}
+  </button>
+</article>

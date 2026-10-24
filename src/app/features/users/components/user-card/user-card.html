@@ -1,0 +1,47 @@
+<article appHighlight="#f8fafc" class="flex h-full flex-col rounded-lg bg-white p-6 shadow-lg transition-colors">
+  <div class="mb-3 flex items-start justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <!-- Pastille d'avatar : initiales + couleur via ngStyle -->
+      <div
+        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white"
+        [ngStyle]="{ 'background-color': avatarColor() }"
+      >
+        {{ user().name | initials }}
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900">{{ user().name | titlecase }}</h3>
+        <p class="text-sm text-gray-500">{{ user().email | lowercase }}</p>
+        <p class="text-sm font-medium text-gray-700">{{ user().role }}</p>
+      </div>
+    </div>
+    <span
+      class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+      [ngClass]="user().active ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'"
+    >
+      {{ user().active ? 'Actif' : 'Inactif' }}
+    </span>
+  </div>
+
+  <h4 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">Tâches assignées</h4>
+
+  <div class="mb-2 grid grid-cols-3 gap-2 text-center">
+    <div class="rounded bg-yellow-50 p-2">
+      <p class="text-lg font-bold text-yellow-700">{{ todoCount() }}</p>
+      <p class="text-xs text-yellow-700">À faire</p>
+    </div>
+    <div class="rounded bg-blue-50 p-2">
+      <p class="text-lg font-bold text-blue-700">{{ inProgressCount() }}</p>
+      <p class="text-xs text-blue-700">En cours</p>
+    </div>
+    <div class="rounded bg-green-50 p-2">
+      <p class="text-lg font-bold text-green-700">{{ doneCount() }}</p>
+      <p class="text-xs text-green-700">Terminées</p>
+    </div>
+  </div>
+
+  @for (group of groups(); track group.projectId) {
+    <app-user-project-group [projectName]="group.projectName" [tasks]="group.tasks" />
+  } @empty {
+    <app-empty-state title="Aucune tâche assignée" />
+  }
+</article>

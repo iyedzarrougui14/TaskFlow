@@ -1,0 +1,35 @@
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ProjectService } from '../../../../core/services/project.service';
+import { UserService } from '../../../../core/services/user.service';
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+import { Project } from '../../../projects/models/project.model';
+import { User } from '../../models/user.model';
+import { UserCard } from '../user-card/user-card';
+
+@Component({
+  selector: 'app-user-list',
+  imports: [FormsModule, UserCard, EmptyState],
+  templateUrl: './user-list.html',
+})
+export class UserList implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly projectService = inject(ProjectService);
+
+  users = signal<User[]>([]);
+  projects = signal<Project[]>([]);
+  searchTerm = signal('');
+
+  filteredUsers = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+    return this.users().filter(
+      (user) =>
+        user.name.toLowerCase().includes(term) || user.email.toLowerCase().includes(term),
+    );
+  });
+
+  ngOnInit(): void {
+    this.userService.getUsers().subscribe((users) => this.users.set(users));
+    this.projectService.getProjects().subscribe((projects) => this.projects.set(projects));
+  }
+}

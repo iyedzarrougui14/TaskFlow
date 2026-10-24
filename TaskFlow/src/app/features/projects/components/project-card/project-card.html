@@ -1,0 +1,31 @@
+<article
+  class="flex h-full flex-col overflow-hidden rounded-lg bg-white p-6 shadow-lg transition"
+  [class.ring-2]="selected()"
+  [class.ring-blue-500]="selected()"
+>
+  <div class="mb-3 flex items-start justify-between gap-3">
+    <h3 class="text-xl font-semibold text-gray-900">{{ project().name }}</h3>
+    <span
+      class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
+      [class]="statusClasses[project().status]"
+    >
+      {{ project().status }}
+    </span>
+  </div>
+
+  <p class="mb-4 text-gray-600">{{ project().description }}</p>
+
+  <h4 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
+    Tâches ({{ project().tasks.length }})
+  </h4>
+  <app-task-list [tasks]="project().tasks" />
+
+  <button
+    type="button"
+    class="mt-auto cursor-pointer self-start rounded px-4 py-2 text-white transition"
+    [class]="selected() ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'"
+    (click)="selectProject()"
+  >
+    {{ selected() ? 'Sélectionné' : 'Sélectionner' }}
+  </button>
+</article>

@@ -1,0 +1,36 @@
+<section>
+  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-3xl font-bold text-blue-600">Mes projets</h2>
+
+    <!-- Two-way binding : [(ngModel)] lié au signal searchTerm -->
+    <input
+      type="text"
+      placeholder="Rechercher un projet..."
+      class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 sm:max-w-xs"
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
+  @if (selectedProject(); as selected) {
+    <p class="mb-6 rounded-lg border-l-4 border-blue-500 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+      Projet sélectionné : <strong>{{ selected.name }}</strong>
+    </p>
+  }
+
+  @if (filteredProjects().length === 0) {
+    <app-empty-state
+      title="Aucun projet trouvé"
+      message="Essayez avec un autre mot-clé."
+    />
+  } @else {
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (project of filteredProjects(); track project.id) {
+        <app-project-card
+          [project]="project"
+          [selected]="selectedProject()?.id === project.id"
+          (projectSelected)="onProjectSelected($event)"
+        />
+      }
+    </div>
+  }
+</section>

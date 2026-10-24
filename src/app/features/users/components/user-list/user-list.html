@@ -1,0 +1,25 @@
+<section>
+  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-3xl font-bold text-blue-600">Utilisateurs</h2>
+
+    <input
+      type="text"
+      placeholder="Rechercher un utilisateur..."
+      class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 sm:max-w-xs"
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
+  @if (filteredUsers().length === 0) {
+    <app-empty-state
+      title="Aucun utilisateur trouvé"
+      message="Essayez avec un autre nom ou email."
+    />
+  } @else {
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (user of filteredUsers(); track user.id) {
+        <app-user-card [user]="user" [projects]="projects()" />
+      }
+    </div>
+  }
+</section>
